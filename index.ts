@@ -5,7 +5,7 @@ import ParkingLotController from './parking-lot-controller';
 
 function readCommand() {
     const rl = readLine.createInterface({
-        input: fs.createReadStream(join(process.cwd(), 'lld-questions', 'parking-lot', 'command.txt'))
+        input: fs.createReadStream(join(process.cwd(), 'command.txt'))
     })
     const parkingLotController = new ParkingLotController();
     rl.on('line', (data) => {
