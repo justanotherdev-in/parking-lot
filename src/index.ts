@@ -5,8 +5,14 @@ import ParkingLotController from './controller/parking-lot-controller';
 import CommandController from './controller/command-controller';
 
 function readCommand() {
+    const fileName = process.argv[2];
+    const file = join(process.cwd(), fileName);
+    if (!fs.existsSync(file)) {
+        throw new Error(`${file} File not found`);
+    }
+
     const rl = readLine.createInterface({
-        input: fs.createReadStream(join(process.cwd(), 'command.txt'))
+        input: fs.createReadStream(file)
     })
     const parkingLotController = new ParkingLotController();
     const commandController = new CommandController(parkingLotController);
