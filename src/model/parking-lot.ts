@@ -1,22 +1,25 @@
 import Floor from "./floor";
-import Ticket from "./ticket";
-import { IFloor, ISlot, ITicket, IVehicle, VehicleType } from "./types";
+import { IFloor, ISlot, IVehicle, VehicleType } from "../types";
+import TicketController from "../controller/ticket-controller";
 
 class ParkingLot {
     id: string;
     floors: Array<IFloor>
-    tickets: Array<ITicket>
 
     constructor(id: string) {
         this.id = id;
         this.floors = [];
-        this.tickets = [];
     }
 
     addFloors(floorsToAdd: number) {
         for (let i = 1; i <= floorsToAdd; i++) {
-            this.floors.push(new Floor(`${i}`));
+            this.floors.push(new Floor(i));
         }
+    }
+
+    addSlot(floorNumber: number, vehicleType: VehicleType) {
+        const floor = this.floors[floorNumber];
+        floor.addSlot(vehicleType);
     }
 
     parkVehicle(vehicle: IVehicle) {
@@ -25,11 +28,11 @@ class ParkingLot {
             const [slotToBook] = floor.getAvailableSlots(vehicle.type);
             if (slotToBook) {
                 slotToBook.occupy();
-                const ticket = new Ticket(`${this.id}_${floor.id}_${slotToBook.id}`, vehicle, slotToBook);
-                this.tickets.push(ticket);
+                const ticket = TicketController.generateTicket(this.id, slotToBook.id, floor.id, vehicle);
                 return ticket;
             }
         }
+        throw new Error('Parking Lot Full');
     }
 
     getFreeSlots(vehicleType: VehicleType, showSlots: boolean = false) {
@@ -55,8 +58,20 @@ class ParkingLot {
         return occupiedSlots;
     }
 
-    unparkVehicle(ticket: ITicket) {
-        ticket.slot.release();
+    unparkVehicle(ticketId: string) {
+        const ticket = TicketController.getTicketWithId(ticketId);
+
+        if (ticket) {            
+            const [_parkingLotId, floorId, slotId] = ticketId.split('_');        
+
+            const floor = this.floors[Number(floorId) - 1];
+            const slot = floor.slots[Number(slotId) - 1];
+            slot.release();
+            TicketController.deleteTicket(ticketId);
+            return `Unparked vehicle with Registration Number: ${ticket.vehicle.regNo} and Color: ${ticket.vehicle.color}`;
+        }
+
+        throw new Error('Invalid Ticket');
     }
 }
 

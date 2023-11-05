@@ -11,7 +11,7 @@ interface IVehicle {
 }
 
 interface ISlot {
-    id: string;
+    id: number;
     type: VehicleType;
     isOccupied: boolean;
     occupy: () => void;
@@ -19,7 +19,7 @@ interface ISlot {
 }
 
 interface IFloor {
-    id: string;
+    id: number;
     slots: Array<ISlot>;
     addSlot: (vehicleType: VehicleType) => void;
     // occupySlot: (vehicleType: VehicleType) => boolean | number;
@@ -29,7 +29,6 @@ interface IFloor {
 
 interface ITicket {
     id: string;
-    slot: ISlot;
     vehicle: IVehicle;
 }
 

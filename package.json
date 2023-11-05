@@ -24,7 +24,6 @@
   "type": "module",
   "devDependencies": {
     "@esbuild-kit/esm-loader": "^2.5.5",
-    "@types/node": "^20.5.0"
+    "@types/node": "^20.8.10"
   }
 }
-

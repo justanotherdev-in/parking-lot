@@ -1,11 +1,11 @@
-import { VehicleType, ISlot } from "./types";
+import { VehicleType, ISlot } from "../types";
 
 class Slot implements ISlot {
-    id: string;
+    id: number;
     type: VehicleType;
     isOccupied: boolean;
 
-    constructor(id: string, type: VehicleType) {
+    constructor(id: number, type: VehicleType) {
         this.id = id;
         this.type = type;
         this.isOccupied = false;

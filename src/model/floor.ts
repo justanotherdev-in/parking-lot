@@ -1,17 +1,17 @@
 import Slot from "./slot";
-import { IFloor, ISlot, VehicleType } from "./types";
+import { IFloor, ISlot, VehicleType } from "../types";
 
 class Floor implements IFloor {
-    id: string;
+    id: number;
     slots: Array<ISlot>
 
-    constructor(id: string) {
+    constructor(id: number) {
         this.id = id;
         this.slots = [];
     }
 
     addSlot(vehicleType: VehicleType) {
-        this.slots.push(new Slot(`${this.slots.length + 1}`, vehicleType));
+        this.slots.push(new Slot(this.slots.length + 1, vehicleType));
     }
 
     // occupySlot(vehicleType: VehicleType) {

@@ -1,4 +1,4 @@
-import { IVehicle, VehicleType } from "./types";
+import { IVehicle, VehicleType } from "../types";
 
 class Vehicle implements IVehicle {
     type: VehicleType;
